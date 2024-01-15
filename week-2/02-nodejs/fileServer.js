@@ -16,6 +16,28 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+const PORT = 3000;
+// Creating a Http Server
+
+app.get("/files" , (req , res)=>{
+  fs.readdir("files" , (err, data)=>{
+    res.status(200).send(data);
+  })
+})
+
+app.get("/file/:filename" , (req  , res)=>{
+  const file  = req.params.filename;
+  const fullpath = path.join('files',file)
+  fs.readFile(fullpath, "utf-8", (err , data)=>{
+    res.status(200).send(data);
+  } )
+})
+
+app.listen(PORT , ()=>{
+  console.log(`Server is Listening on port ${PORT}`)
+})
+
+
 
 
 module.exports = app;
